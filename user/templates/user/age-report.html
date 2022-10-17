@@ -1,0 +1,176 @@
+{% extends 'user/layouts/master.html' %}
+{% block content %}
+{% load static %}
+
+<!-- side bar -->
+<div id="sidebar" class="active">
+    <div class="sidebar-wrapper active ps ps--active-y">
+        <div class="sidebar-header">
+            <div class="justify-content-between">
+                <div class="logo mb-3 text-center">
+                    {% comment %} <img src="{{user.member.img.url }}" class="myimg" /> {% endcomment %}
+                    <img src="{% static 'images/logo/logooo.png' %}" style="width:auto; height:200px" alt="Logo">
+                </div>
+                <div class="toggler">
+                    <a href="#" class="sidebar-hide d-xl-none d-block"><i class="bi bi-x bi-middle"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="sidebar-menu">
+            <ul class="menu">
+                <li class="sidebar-title">Menu</li>
+
+                <li class="sidebar-item">
+                    <a href="{% url 'dashboard' %}" class="sidebar-link">
+                        <i class="bi bi-grid-fill"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+
+                <li class="sidebar-item has-sub">
+                    <a href="#" class="sidebar-link">
+                        <i class="bi bi-people-fill"></i>
+                        <span>Members</span>
+                    </a>
+                    <ul class="submenu active" style="display: none;">
+                        <li class="submenu-item">
+                            <a href="{% url 'add-member' %}">Add Member</a>
+                        </li>
+                        <li class="submenu-item">
+                            <a href="{% url 'all-members' %}">All Members</a>
+                        </li>
+                        <li class="submenu-item">
+                            <a href="{% url 'manage-members' %}">Blocked Members</a>
+                        </li>
+                        <li class="submenu-item">
+                            <a href="{% url 'manage-members' %}">Manage Members</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="sidebar-item has-sub">
+                    <a href="#" class="sidebar-link">
+                        <i class="bi bi-people-fill"></i>
+                        <span>Users</span>
+                    </a>
+                    <ul class="submenu" style="display: none;">
+
+                        <li class="submenu-item ">
+                            <a href="{% url 'manage-users' %}">Manage Users</a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="sidebar-item  has-sub active">
+                    <a href="#" class="sidebar-link">
+                        <i class="bi bi-pie-chart-fill"></i>
+                        <span>Reports</span>
+                    </a>
+                    <ul class="submenu ">
+                        <li class="submenu-item active">
+                            <a href="extra-component-avatar.html">Age Reports</a>
+                        </li>
+                        <li class="submenu-item ">
+                            <a href="extra-component-avatar.html">Gender Reports</a>
+                        </li>
+                        <li class="submenu-item ">
+                            <a href="extra-component-avatar.html">Barangay Reports</a>
+                        </li>
+                    </ul>
+                </li>
+
+
+                <hr>
+                {% if user.is_authenticated %}
+                <li class="sidebar-item">
+                    <a href="{% url 'logout' %}" class="sidebar-link" onclick="return confirm('Logout?')">
+                        <i class="bi bi-window close-fill"></i>
+                        <span class="text-danger">Logout</span>
+                    </a>
+                </li>
+                {% endif %}
+
+
+            </ul>
+        </div>
+    </div>
+    <div class="page-heading">
+        <div class="page-title">
+            <div class="row">
+                <div class="col-12 col-md-6 order-md-1 order-last">
+                    <h3>Age Report</h3>
+                </div>
+                <div class="col-12 col-md-6 order-md-2 order-first">
+                    <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Age Reports</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+        <section class="section">
+            <div class="card">
+                <div class="card-header">
+                </div>
+                <div class="card-body">
+
+                </div>
+            </div>
+    </div>
+</div>
+</section>
+
+<section>
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+<canvas id="myChart" style="width:100%;max-width:600px"></canvas>
+
+<script>
+var xValues = [50,60,70,80,90,100,110,120,130,140,150];
+var yValues = [7,8,8,9,9,9,10,11,14,14,15];
+
+new Chart("myChart", {
+  type: "line",
+  data: {
+    labels: xValues,
+    datasets: [{
+      fill: false,
+      lineTension: 0,
+      backgroundColor: "rgba(0,0,255,1.0)",
+      borderColor: "rgba(0,0,255,0.1)",
+      data: yValues
+    }]
+  },
+  options: {
+    legend: {display: false},
+    scales: {
+      yAxes: [{ticks: {min: 6, max:16}}],
+    }
+  }
+});
+</script>
+
+
+
+
+
+</div>
+</div>
+</div>
+</section>
+</div>
+
+
+{% endblock %}
+{% block styles %}
+<link rel="stylesheet" href="{% static 'vendors/simple-datatables/style.css' %}">
+{% endblock %}
+{% block js %}
+<script src="{% static 'vendors/simple-datatables/simple-datatables.js' %}"></script>
+<script>
+    // Simple Datatable
+    let table1 = document.querySelector('#table1');
+    let dataTable = new simpleDatatables.DataTable(table1);
+</script>
+{% endblock %}

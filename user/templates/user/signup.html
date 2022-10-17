@@ -1,0 +1,202 @@
+{% extends 'user/layouts/master.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+{% load static %}
+
+<style>
+    .help-block {
+        color: red;
+    }
+    .asteriskField {
+        color: red;
+    }
+
+    .errorlist {
+        color: red;
+    }
+
+    .card {
+        box-shadow: 0 0.15rem 1.75rem 0 rgb(33 40 50 / 15%);
+    }
+
+    .card .card-header {
+        font-weight: 500;
+    }
+
+    .card-header:first-child {
+        border-radius: 0.35rem 0.35rem 0 0;
+    }
+
+    .card-header {
+        padding: 1rem 1.35rem;
+        margin-bottom: 0;
+        background-color: rgba(39, 40, 50, 0.03);
+        border-bottom: 1px solid rgba(33, 40, 50, 0.125);
+    }
+
+    .form-control,
+    .dataTable-input {
+        display: block;
+        width: 100%;
+        padding: 0.875rem 1.125rem;
+        font-size: 0.875rem;
+        font-weight: 400;
+        line-height: 1;
+        color: #69707a;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid #c5ccd6;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        border-radius: 0.35rem;
+        transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    }
+</style> 
+<div class="page-heading">
+    <div class="page-title">
+        <div class="row">
+            <div class="col-12 col-md-9 order-md-1 mb-2">
+                <center><h1 style=>Sign Up</h1></center>
+            </div>
+            <div class="col-12 col-md-6 order-md-2 order-first">
+            </div>
+        </div>
+    </div>
+
+<!-- add-member form -->
+<form method='POST' enctype="multipart/form-data">
+    {% csrf_token %}
+    <section id="multiple-column-form">
+        <div class="row match-height">
+            <div class="col-9">
+                <div class="card">
+                    <div class="card-header">
+                        User Account
+                    </div>
+                    <div class="card-content">
+                        <div class="card-body">
+                            <div class="col-md-12 mb-2">
+
+                                <div class="col-md-12 mb-2"> {{ user_form|crispy }} </div>
+
+
+                            </div>
+                            </center>
+                            <br />
+                        </div>
+                    </div>
+                </div>
+                <div class="row match-height">
+                    <div class="col-12">
+                        <div class="card">
+                                                <div class="card-header">
+                        User Details
+                    </div>
+                            <div class="card-content">
+                                <div class="card-body">
+                                    <div class="col-md-12 mb-2">
+                                        <div class="row">
+                                            <div class="form-group col-md-4 mb-0">
+                                                {{form.last_name|as_crispy_field}}
+                                            </div>
+                                            <div class="form-group col-md-3 mb-0">
+                                                {{form.first_name|as_crispy_field}}
+                                            </div>
+                                            <div class="form-group col-md-3 mb-0">
+                                                {{ form.middle_name|as_crispy_field}}
+                                            </div>
+                                            <div class="form-group col-md-2 mb-0">
+                                                {{ form.name_ext|as_crispy_field}}
+                                            </div>
+                                            <div class="form-group col-md-2 mb-0">
+                                                {{ form.sex|as_crispy_field}}
+                                            </div>
+                                            <div class="form-group col-md-3 offset-md-1  mb-0">
+                                                {{ form.civilstatus|as_crispy_field}}
+                                            </div>
+                                            <div class="form-group col-md-5 offset-md-1 mb-0">
+                                                {{ form.occupation|as_crispy_field}}
+                                            </div>
+                                            <div class="form-group col-md-5 mb-0">
+                                                {{ form.barangay|as_crispy_field}}
+                                            </div>
+                                            <div class="form-group col-md-4 offset-md-2 mb-0">
+                                                {{ form.contact_number|as_crispy_field}}
+                                            </div>
+
+                                            <div class="form-group col-md-4 mb-0">
+                                                {{ form.date_of_birth|as_crispy_field}}
+                                            </div>
+                                            <div class="form-group col-md-5 offset-md-2 mb-0">
+                                                {{ form.place_of_birth|as_crispy_field}}
+                                            </div>
+                                            <div class="form-group col-md-4 mb-0">
+                                                {{ form.skills|as_crispy_field}}
+                                            </div>
+                                            <div class="form-group col-md-5 offset-md-2 mb-0">
+                                                {{ form.annual_income|as_crispy_field}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row match-height">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                       Upload a 2 x 2 picture
+                                    </div>
+                                    <div class="card-content">
+                                        <div class="card-body">
+                                            <div class="col-md-12 mb-2">
+                
+                                                <div class="form-group col-md-12 mb-0">
+                                                    {{ form.img|as_crispy_field}}
+                                                </div>                                                
+                
+                
+                                            </div>
+                                            </center>
+                                            <br />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row match-height">
+                                    <div class="col-12">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                Upload a birth certificate or valid ID(e.g Voter's ID, PhilID ID, Driver License ID, Postal ID)
+                                            </div>
+                                            <div class="card-content">
+                                                <div class="card-body">
+                                                    <div class="col-md-12 mb-2">
+                        
+                                                            {{ form.documents|as_crispy_field}}
+                                                        </div>                                               
+                        
+                        
+                                                    </div>
+                                                    </center>
+                                                    <br />
+                                                </div>
+                                            </div>
+                                        </div>
+                                            <div class="form-group col-md-12">
+                                                <button class="btn btn-primary btn-block shadow mt-3" type="submit"> Sign Up </button>
+                                            </div>
+                                            <center><p class="text-gray-600">Already have an account? <a href="{% url 'login' %}" class="font-bold"><br>Log In</a>.</p></center>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</form>
+<!-- add-member form -->
+
+<!--2x2 picture upload -->
+
+{% endblock %}

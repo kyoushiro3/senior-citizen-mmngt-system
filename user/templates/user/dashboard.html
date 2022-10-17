@@ -1,0 +1,448 @@
+{% extends 'user/layouts/master.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+{% load static %}
+{%if user.is_authenticated %}
+{% comment %} {% block page_title %} Dashboard {% endblock %} {% endcomment %}
+
+
+<head>
+    <title>
+        Dashboard
+    </title>
+    <link rel="shortcut icon" href="{% static 'images/icon/favicon.svg' %}" type="image/x-icon">
+</head>
+
+<style>
+    .help-block {
+        color: red;
+    }
+
+    .myimg {
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+
+        .roundedImage {
+            overflow: hidden;
+            border-radius: 50%;
+            width: 200px;
+            height: 200px;
+</style>
+<script>
+    functiion calculateAge(date) {
+        const now = new.Date();
+        const diff = Math.abs(now - date);
+        const age = math.floor(diff / (1000 * 60 * 20 * 365));
+        return age
+    }
+
+    var picker = new Pikaday({
+                field: document.getElementById('id_date_of_birth'),
+                yearRange: [1900, 2022],
+                onSelect: function (date) {
+                    let age = calculateAge(date);
+                    document.getElementById('age').innerHTML = "age: " + age;
+                });
+</script>
+
+<!-- side bar -->
+<div id="sidebar" class="active">
+    <div class="sidebar-wrapper active ps ps--active-y">
+        <div class="sidebar-header">
+            <div class="justify-content-between">
+                <div class="logo mb-3 text-center">
+                    {% comment %} <img src="{{user.member.img.url }}" class="myimg" /> {% endcomment %}
+                    <img src="{% static 'images/logo/logooo.png' %}" style="width:auto; height:200px" alt="Logo">
+                </div>
+                <div class="toggler">
+                    <a href="#" class="sidebar-hide d-xl-none d-block"><i class="bi bi-x bi-middle"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="sidebar-menu">
+            <ul class="menu">
+                <li class="sidebar-title">Menu</li>
+
+                <li class="sidebar-item active">
+                    <a href="{% url 'dashboard' %}" class="sidebar-link">
+                        <i class="bi bi-grid-fill"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                {% if user.is_staff %}
+                <li class="sidebar-item has-sub">
+                    <a href="#" class="sidebar-link">
+                        <i class="bi bi-people-fill"></i>
+                        <span>Members</span>
+                    </a>
+                    <ul class="submenu" style="display: none;">
+                        <li class="submenu-item">
+                            <a href="{% url 'add-member' %}">Add Member</a>
+                        </li>
+
+                        <li class="submenu-item">
+                            <a href="{% url 'all-members' %}">All Members</a>
+                        </li>
+                        <li class="submenu-item">
+                            <a href="{% url 'member-requests' %}">Member Requests</a>
+                        </li>
+                        <li class="submenu-item">
+                            <a href="{% url 'manage-members' %}">Manage Members</a>
+                        </li>
+                    </ul>
+                </li>
+                {% endif %}
+                {% if user.is_superuser %}
+                <li class="sidebar-item has-sub">
+                    <a href="#" class="sidebar-link">
+                        <i class="bi bi-people-fill"></i>
+                        <span>Users</span>
+                    </a>
+                    <ul class="submenu" style="display: none;">
+
+                        <li class="submenu-item">
+                            <a href="{% url 'active-users' %}">Active Users</a>
+                        </li>
+                        <li class="submenu-item">
+                            <a href="{% url 'blocked-users' %}">Blocked Users</a>
+                        </li>
+                    <li class="submenu-item">
+                        <a href="{% url 'manage-users' %}">Manage Users</a>
+                    </li>
+                    </ul>
+                </li>
+                {% endif %}
+                <li class="sidebar-item  has-sub">
+                    <a href="#" class="sidebar-link">
+                        <i class="bi bi-pie-chart-fill"></i>
+                        <span>Reports</span>
+                    </a>
+                    <ul class="submenu ">
+                        <li class="submenu-item ">
+                            <a href="{% url 'sex-report' %}">Gender Report</a>
+                        </li>
+                        <li class="submenu-item ">
+                            <a href="{% url 'brgy-report' %}">Barangay Report</a>
+                        </li>
+                        <li class="submenu-item">
+                            <a href="{% url 'status-report' %}">Status Report</a>
+                        </li>
+                    </ul>
+                </li>
+
+
+                <hr>
+                {% if user.is_authenticated %}
+                <li class="sidebar-item">
+                    <a href="{% url 'logout' %}" class="sidebar-link" onclick="return confirm('Ready to leave?')">
+                        <i class="bi bi-window close-fill"></i>
+                        <span class="text-danger">Logout</span>
+                    </a>
+                </li>
+                {% endif %}
+
+
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- top nav -->
+<div class="page-heading">
+    <div class="page-title">
+        <div class="row">
+            <div class="col-12 col-md-6 order-md-1 order-last">
+                <h3>Dashboard</h3>
+                {% comment %} <p class="text-subtitle text-muted">Multiple form layout you can use</p> {% endcomment %}
+            </div>
+            <div class="col-12 col-md-6 order-md-2 order-first">
+                <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                        <li class="breadcrumb-item active" aria-current="page"></li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+{% if messages %}
+{% for message in messages %}
+<div class="alert alert-{{ message.tags }} m-2" id="msg" role="alert">
+    {{ message }}
+</div>
+    {% endfor %}
+{% endif %}
+{% if user.is_staff %}
+<section id="basic-horizontal-layouts">
+    <div class="row match-height">
+        <div class="row">
+            <div class="col-6 col-lg-3 col-md-6">
+                <div class="card">
+                    <div class="card-body px-3 py-4-5">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="stats-icon purple">
+                                    <i class="bi bi-house-fill"></i>
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <h6 class="text-muted font-semibold">Barangay</h6>
+                                <h6 class="font-extrabold mb-0">25</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-lg-3 col-md-6">
+                <div class="card">
+                    <div class="card-body px-3 py-4-5">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="stats-icon blue">
+                                    <i class="bi bi-person-fill"></i>
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <h6 class="text-muted font-semibold">Senior Citizens</h6>
+                                <h6 class="font-extrabold mb-0">{{ total_members|length }}</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-lg-3 col-md-6">
+                <div class="card">
+                    <div class="card-body px-3 py-4-5">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="stats-icon green">
+                                    <h3>👨</h3>
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <h6 class="text-muted font-semibold">Male</h6>
+                                <h6 class="font-extrabold mb-0">{{ male }}</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-lg-3 col-md-6">
+                <div class="card">
+                    <div class="card-body px-3 py-4-5">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="stats-icon red">
+                                    <h3>👧</h3>
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <h6 class="text-muted font-semibold">Female</h6>
+                                <h6 class="font-extrabold mb-0">{{ female }}</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+<h3>Announcements</h3>
+<br>
+<section id="basic-horizontal-layouts">
+    <div class="row match-height">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <section>
+                                    <style>
+                                        <div class="row">
+                                            * {
+                                                box-sizing: border-box;
+                                              }
+                                              
+                                              
+                                              /* Float four columns side by side */
+                                              .column1 {
+                                                float: left;
+                                                width: 100%;
+                                                padding: 0 10px;
+                                              }
+                                              
+                                              /* Remove extra left and right margins, due to padding */
+                                              .row1 {margin: 0 -5px; padding: 10px 10px;}
+                                              
+                                              /* Clear floats after the columns */
+                                              .row1:after {
+                                                content: "";
+                                                display: table;
+                                                clear: both;
+                                              }
+                                              
+                                              /* Responsive columns */
+                                              @media screen and (max-width: 600px) {
+                                                .column1 {
+                                                  width: 100%;
+                                                  display: block;
+                                                  margin-bottom: 20px;
+                                                }
+                                              }
+                                              
+                                              /* Style the counter cards */
+                                              .card1 {
+                                                box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+                                                padding: 16px;
+                                                text-align: center;
+                                                background-color: white;
+                                              }
+                                              </style>
+                                              </head>
+                                              <body>
+                                              
+
+                                              <br>
+                                              {% for announcement in announcements %}
+                                
+                                              <div class="row1">
+                                                <div class="column1">
+                                                  <div class="card">
+                                                    <h5>{{ announcement.title }}</h5>
+                                                    <p>{{ announcement.created_at }}</p>
+                                                    <p>{{ announcement.desc }}</p>
+                                                    <a class="btn btn-danger col-md-1" href={% url 'delete-announcement' announcement.pk %}>Delete</a> 
+                                                    <hr>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                              {% endfor %}
+                                            </tr>
+                                            <tbody>
+                                        </table>
+                                </section>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="basic-horizontal-layouts">
+    <div class="row match-height">
+        <div class="row">
+            <div class="col-md-19=0">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <form action="{% url 'announcement' %}" method="POST">
+                                    {% csrf_token %}
+                                <div class="col">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="row">
+                                            <label for="exampleFormControlTextarea1" class="form-label">Title: </label>
+                                            </div>
+                                            <input type="text" class="form-control mb-1" name="title" placeholder="Title..." maxlength="30">
+                                            <div class="form-group mb-3">
+                                                <label for="exampleFormControlTextarea1" class="form-label">Description: </label>
+                                                <textarea class="form-control" rows="3" name="desc" placeholder="Add description..." required="True" maxlength="255"></textarea>
+                                            </div>
+                                            <input type="submit" class="btn btn-primary" value="Add Announcement">
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+{% if user.is_superuser %}
+<section id="basic-horizontal-layouts">
+    <div class="row match-height">
+        <div class="row">
+            <div class="col-6 col-lg-3 col-md-6">
+                <div class="card">
+                    <div class="card-body px-3 py-4-5">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="stats-icon purple">
+                                    <i class="bi bi-person-fill"></i>
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <h6 class="text-muted font-semibold">No. of Users</h6>
+                                <h6 class="font-extrabold mb-0">{{ users|length }}</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-lg-3 col-md-6">
+                <div class="card">
+                    <div class="card-body px-3 py-4-5">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="stats-icon blue">
+                                    <i class="bi bi-person-fill"></i>
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <h6 class="text-muted font-semibold">No. of Staffs</h6>
+                                <h6 class="font-extrabold mb-0">{{ staff }}</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-lg-3 col-md-6">
+                <div class="card">
+                    <div class="card-body px-3 py-4-5">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="stats-icon green">
+                                    <h3>🟢</h3>
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <h6 class="text-muted font-semibold">No. of Active Users</h6>
+                          s      <h6 class="font-extrabold mb-0">{{ active }}</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-lg-3 col-md-6">
+                <div class="card">
+                    <div class="card-body px-3 py-4-5">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="stats-icon red">
+                                    <h3>❌</h3>
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <h6 class="text-muted font-semibold">No. of Inactive Users</h6>
+                                <h6 class="font-extrabold mb-0">{{ inactive }}</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+{% endif %}
+{% endblock %}

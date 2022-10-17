@@ -1,0 +1,53 @@
+{% load static %}
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SCMS</title>
+
+<link rel="shortcut icon" href="{% static 'images/icons/icon.ico' %}" />
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+<link rel="stylesheet" href="{% static 'vendors/bootstrap-icons/bootstrap-icons.css' %}">
+<link rel="stylesheet" href="{% static 'css/app.css' %}">
+<link rel="stylesheet" href="{% static 'css/pages/auth.css' %}">
+</head>
+
+<style>
+    body{ 
+        overflow-x: hidden;
+    }
+</style>
+
+<div class="row mt-3">
+    <div class="row d-flex justify-content-center text-center">
+        <div class="row d-flex justify-content-center text-center">
+            <a href="index.html"><img src="{% static 'images/logo/logooo.png' %}" style="max-width: 25%;" alt="Logo"></a>
+        </div>
+        <div class="col-3 mt-3">
+            <form method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                    <input type="text" name="fscap_no" id="fscap_no" class="form-control" placeholder="Username">
+                </div>
+                <div class="form-group">
+                    <input type="password" name="password" id="password" class="form-control" placeholder="Password">
+                </div>
+
+                <div class="form-check form-check d-flex align-items-end">
+                    <input class="form-check-input me-2" type="checkbox" value="" id="flexCheckDefault">
+                    <label class="form-check-label text-gray-600" for="flexCheckDefault">
+                        {{ form.remember_me }} Keep me logged in
+                    </label>
+                </div>
+                <button class="btn btn-primary btn-block shadow mt-3" type="submit">Log in</button>
+            </form>
+            <p class="text-gray-600">Don't have an account? <a href="{% url "register" %}" class="font-bold">Sign
+                    up</a>.</p>
+            <p><a class="font-bold" href="auth-forgot-password.html">Forgot password?</a>.</p>
+        </div>
+    </div>
+</div>
+
+

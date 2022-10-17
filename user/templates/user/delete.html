@@ -1,0 +1,10 @@
+<form method="post">
+    {% csrf_token %}
+    <div class="form-row">
+        <div class="alert alert-warning">
+            Are you sure you want to delete {{ object }}?
+        </div>
+    </div>
+    <button type="submit" class="btn btn-danger"> Confirm</button>
+    <a href="{% url 'index' %}" class="btn btn-primary" class>Cancel</a>
+</form>

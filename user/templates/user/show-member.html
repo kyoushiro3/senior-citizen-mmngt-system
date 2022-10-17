@@ -1,0 +1,21 @@
+<br><h5>Senior Citizen Member</h5><br>
+                  <div class="card-body p-3">
+                      <ul class="list-group">
+                        {{ user.profile.first_name}}
+                        <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark">Senior Citizen ID:</strong> {{ member.fscap_membershipno }}</li>
+                        <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Name:</strong> &nbsp; {{member.first_name }} {{member.middle_name }} {{ member.last_name }}</li>
+                        <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Sex:</strong> {{ member.sex }}</li>
+                        <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Age::</strong> Age </li>
+                        <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Civil Status:</strong> {{ member.civil_status }}</li>
+                        <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Birthday:</strong> {{ member.birthday }}</li>
+                        <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Place of Birth:</strong>{{ member.place_of_birth}}</li>
+                        <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Barangay:</strong> {{ member.barangay }}</li>
+                        <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Occupation:</strong> {{ member.occupation }}</li>
+                        <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Annual Income:</strong> {{ member.annual_income }}</li>
+                        <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Skills: </strong> &nbsp; {{ member.skills }}</li>
+                      </ul>
+                      <hr class="horizontal gray-light my-4">
+                      <div class="row">
+                        <div class="col-md-6 col-md-offset-4">
+                        <a href="{% url 'index' %}" class="btn btn-primary" class>Back</a>
+                        </div>

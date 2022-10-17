@@ -1,0 +1,186 @@
+{% extends 'user/layouts/master.html' %}
+{% block content %}
+{% load static %}
+
+<!-- side bar -->
+<div id="sidebar" class="active">
+    <div class="sidebar-wrapper active ps ps--active-y">
+        <div class="sidebar-header">
+            <div class="justify-content-between">
+                <div class="logo mb-3 text-center">
+                    {% comment %} <img src="{{user.member.img.url }}" class="myimg" /> {% endcomment %}
+                    <img src="{% static 'images/logo/logooo.png' %}" style="width:auto; height:200px" alt="Logo">
+                </div>
+                <div class="toggler">
+                    <a href="#" class="sidebar-hide d-xl-none d-block"><i class="bi bi-x bi-middle"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="sidebar-menu">
+            <ul class="menu">
+                <li class="sidebar-title">Menu</li>
+
+                <li class="sidebar-item">
+                    <a href="{% url 'dashboard' %}" class="sidebar-link">
+                        <i class="bi bi-grid-fill"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+
+                <li class="sidebar-item has-sub active">
+                    <a href="#" class="sidebar-link">
+                        <i class="bi bi-people-fill"></i>
+                        <span>Members</span>
+                    </a>
+                    <ul class="submenu active" style="display: none;">
+                        <li class="submenu-item">
+                            <a href="{% url 'add-member' %}">Add Member</a>
+                        </li>
+                        <li class="submenu-item">
+                            <a href="{% url 'all-members' %}">All Members</a>
+                        </li>
+                        <li class="submenu-item active">
+                            <a href="{% url 'manage-members' %}">Member Requests</a>
+                        </li>
+                        <li class="submenu-item">
+                            <a href="{% url 'manage-members' %}">Manage Members</a>
+                        </li>
+                    </ul>
+                </li>
+                {% if user.is_superuser %}
+                <li class="sidebar-item has-sub">
+                    <a href="#" class="sidebar-link">
+                        <i class="bi bi-people-fill"></i>
+                        <span>Users</span>
+                    </a>
+                    <ul class="submenu" style="display: none;">
+ 
+                        <li class="submenu-item">
+                            <a href="{% url 'active-users' %}">Active Users</a>
+                        </li>
+                        <li class="submenu-item">
+                            <a href="{% url 'blocked-users' %}">Blocked Users</a>
+                        </li>
+                    <li class="submenu-item">
+                        <a href="{% url 'manage-users' %}">Manage Users</a>
+                    </li>
+                    </ul>
+                </li>
+                {% endif %}
+
+            <li class="sidebar-item has-sub">
+                <a href="#" class="sidebar-link">
+                    <i class="bi bi-pie-chart-fill"></i>
+                    <span>Reports</span>
+                </a>
+                <ul class="submenu ">
+                    <li class="submenu-item ">
+                        <a href="{% url 'sex-report' %}">Gender Report</a>
+                    </li>
+                    <li class="submenu-item ">
+                        <a href="{% url 'brgy-report' %}">Barangay Report</a>
+                    </li>
+                    <li class="submenu-item">
+                        <a href="{% url 'status-report' %}">Status Report</a>
+                    </li>
+                </ul>
+            </li>
+
+
+            <hr>
+            {% if user.is_authenticated %}
+            <li class="sidebar-item">
+                <a href="{% url 'logout' %}" class="sidebar-link">
+                    <i class="bi bi-window close-fill"></i>
+                    <span class="text-danger">Logout</span>
+                </a>
+            </li>
+            {% endif %}
+
+
+            </ul>
+        </div>
+    </div>
+    <div class="page-heading">
+        <div class="page-title">
+            <div class="row">
+                <div class="col-12 col-md-6 order-md-1 order-last">
+                    <h3> Member Requests </h3>
+                </div>
+                <div class="col-12 col-md-6 order-md-2 order-first">
+                    <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Manage Members</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} m-2" id="msg" role="alert">
+            {{ message }}
+        </div>
+            {% endfor %}
+    {% endif %}
+        <section class="section">
+            <div class="card">
+                <div class="card-header">
+                </div>
+                <div class="card-body">
+                    <table class="table table-striped" id="table1">
+                        <thead>
+                            <tr>
+                                <th scope="col"><input type="checkbox" /></th>
+                                <th class="col-2">
+                                    <center>FSCAP No.</center>
+                                </th>
+                                <th class="col-2">Name</th>
+                                <th class="col-1"> Username </th>
+                                <th class="col-2">Contact Info</th>
+                                <th class="col-2">Barangay</th>
+                                <th class="col-3">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for members in member %}
+                            <tr>
+                                <td scope="col"><input type="checkbox" /></td>
+                                <td>
+                                    <center>118-{{members.id }}</center>
+                                </td>
+                                <td>{{ members.last_name|title }}, {{ members.first_name|title }} </td>
+                                <td> {{members.user.username}}
+                                <td>+63{{ members.contact_number }} </td>
+                                <td>{{ members.get_barangay_display }} </td>
+                                <td><a class="btn btn-primary" href="{% url 'info-member' members.pk %}">View</a>
+                                    <a class="btn btn-success" href="{% url 'accept' members.pk %}"
+                                        data-toggle="tooltip" data-original-title="Edit user" onclick="return confirm('Accept member request?')">Accept</a>
+                                        <a class="btn btn-danger" href="{% url 'delete-request' members.pk %}" onclick="return confirm('Delete member request?')">Decline</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+    </div>
+    </section>
+</div>
+
+
+{% endblock %}
+{% block styles %}
+<link rel="stylesheet" href="{% static 'vendors/simple-datatables/style.css' %}">
+{% endblock %}
+{% block js %}
+<script src="{% static 'vendors/simple-datatables/simple-datatables.js' %}"></script>
+<script>
+    // Simple Datatable
+    let table1 = document.querySelector('#table1');
+    let dataTable = new simpleDatatables.DataTable(table1);
+</script>
+{% endblock %}

@@ -1,0 +1,529 @@
+{% extends 'user/layouts/master.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+{% load static %}
+{%if user.is_authenticated %}
+{% comment %} {% block page_title %} Dashboard {% endblock %} {% endcomment %}
+
+
+<head>
+    <title>
+        Dashboard
+    </title>
+    <link rel="shortcut icon" href="{% static 'images/icon/favicon.svg' %}" type="image/x-icon">
+</head>
+
+<style>
+    .help-block{
+        color: red;
+    }
+    .myimg{
+        width:200px;
+        height:200px;
+        border-radius:50%;
+    .roundedImage {
+        overflow:hidden;
+        border-radius:50%;
+        width:200px;
+        height:200px;
+    .card {
+        box-shadow: 0 0.15rem 1.75rem 0 rgb(33 40 50 / 15%);
+        }
+    .card .card-header {
+        font-weight: 500;
+        }
+    .card-header:first-child {
+        border-radius: 0.35rem 0.35rem 0 0;
+        }
+    .card-header {
+        padding: 1rem 1.35rem;
+        margin-bottom: 0;
+        background-color: rgba(33, 40, 50, 0.03);
+        border-bottom: 1px solid rgba(33, 40, 50, 0.125);
+        }
+</style>
+{% comment %} <script>
+functiion calculateAge(date)
+{
+    const now = new.Date();
+    const diff = Math.abs(now-date);
+    const age = math.floor(diff/(1000*60*20*365));
+    return age
+}
+
+var picker = new Pikaday({
+    field:
+    document.getElementById('date_of_birth'),
+    yearRange:[1900, 2022],
+    let age = calculateAge(date);
+    document.getElementById('age').innerHTML="age: "+ age;
+}
+});
+</script> {% endcomment %}
+  
+<!-- side bar -->
+<div id="sidebar" class="active">
+    <div class="sidebar-wrapper active ps ps--active-y">
+        <div class="sidebar-header">
+            <div class="justify-content-between">
+                <div class="logo mb-3 text-center">
+                    {% comment %} <img src="{{user.member.img.url }}" class="myimg" /> {% endcomment %}
+                    <img src="{% static 'images/logo/logooo.png' %}" style="width:auto; height:200px"alt="Logo">
+                </div>
+                <div class="toggler">
+                    <a href="#" class="sidebar-hide d-xl-none d-block"><i class="bi bi-x bi-middle"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="sidebar-menu">
+            <ul class="menu">
+                <li class="sidebar-title">Menu</li>
+
+                <li class="sidebar-item">
+                    <a href="{% url 'index' %}" class="sidebar-link">
+                        <i class="bi bi-grid-fill"></i>
+                        <span>Home</span>
+                    </a>
+                </li>
+
+                <li class="sidebar-item active">
+                    <a href="{% url 'member-profile' %}" class="sidebar-link">
+                        <i class="bi bi-egg-fill"></i>
+                        <span>Profile</span>
+                    </a>
+                </li>
+
+                <li class="sidebar-item has-sub">
+                    <a href="#" class="sidebar-link">
+                        <i class="bi bi-people-fill"></i>
+                        <span>Account</span>
+                    </a>
+                    <ul class="submenu" style="display: none;">
+                        <li class="submenu-item ">
+                            <a href="#">Change Password</a>
+                        </li>
+                    </ul>
+                </li>
+
+            
+                <hr>
+                {% if user.is_authenticated %}
+                <li class="sidebar-item">
+                    <a href="{% url 'logout' %}" class="sidebar-link" onclick="return confirm('Logout?')">
+                        <i class="bi bi-window close-fill"></i>
+                        <span class="text-danger">Logout</span>
+                    </a>
+                </li>
+                {% endif %}
+
+                
+            </ul>
+        </div>
+</div>
+</div>
+    <!-- top nav -->
+    <div class="page-heading">
+        <div class="page-title">
+            <div class="row">
+                <div class="col-12 col-md-6 order-md-1 order-last">
+                    <h3>View Profile</h3>
+                    {% comment %} <p class="text-subtitle text-muted">Multiple form layout you can use</p> {% endcomment %}
+                </div>
+                <div class="col-12 col-md-6 order-md-2 order-first">
+                    <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">View Profile</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+        <!-- add-member form -->
+        <!--<section id="multiple-column-form">
+            <div class="row match-height">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="card-body">
+                                <div class="row">
+                                <div class="col-md-4 col-12">
+                                    <div class="card">
+                                        <div class="card-content">
+                                            <div class="card-body">
+                                                <form class="form form-horizontal">
+                                                    <div class="form-body">
+                                                        <div class="row">
+                                                          <div class="text-center">
+                                                              <img src="{% static 'images/faces/3.jpg' %}" class="roundedImage" alt="" srcset="">
+                                                          </div>
+                                                          <div class="mt-3 text-center">
+                                                            <label><h5>{{member.first_name }} {{member.middle_name }} {{ member.last_name }} </h5></label>
+                                                          </div>
+                                                          <div class="text-center text-muted">
+                                                            <label>{{member.fscap_no}}</label>
+                                                          </div>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                                <div class="col-md-8 mb-2">
+                                                    {% comment %} <button onclick="window.open('').print()"> Print </button>                                                               {% endcomment %}
+                                                                               
+                                                                    
+                                                                        
+                                                                    
+                                                                    
+                                                                    
+                                                                    
+                                                                        
+                                                <div class="row">               
+                                                    <div class="form-group col-md-4 mb-0">
+                                                        <label>Name</label>
+                                                    </div>
+                                                    <div class="col-md-8 form-group">
+                                                        <input type="text" id="last-name" class="form-control" name="lname" placeholder="{{user.member.last_name }}, {{user.member.first_name }} {{user.member.middle_name}} {{user.member.name_ext }} " disabled="">
+                                                    </div>
+                                                    {% comment %} <div class="form-group col-md-4 mb-0">
+                                                        <label>First Name</label>
+                                                    </div>
+                                                    <div class="col-md-8 form-group">
+                                                        <input type="text" id="first-name" class="form-control" name="fname" placeholder="{{user.member.first_name }}" disabled="">
+                                                    </div>
+                                                    <div class="form-group col-md-4 mb-0">
+                                                        <label>Middle Name</label>
+                                                    </div>
+                                                        <div class="col-md-8 form-group">
+                                                            <input type="text" id="middle-name" class="form-control" name="mname" placeholder="{{user.member.middle_name}}" disabled="">
+                                                        </div> {% endcomment %}
+                                                    {% comment %} <div class="form-group col-md-4 mb-0">
+                                                        <label>Name Extension</label>
+                                                        </div>
+                                                        <div class="col-md-8 form-group">
+                                                                 <input type="text" id="name-ext" class="form-control" name="nameext" placeholder="{{user.member.name_ext }}" disabled="">
+                                                             </div> {% endcomment %}
+                                                             <div class="form-group col-md-4 mb-0">
+                                                        <label>Barangay</label>
+                                                             </div>
+                                                             <div class="col-md-8 form-group">
+                                                                 <input type="text" id="barangay" class="form-control" name="barangay" placeholder="{{user.member.barangay }}" disabled="">
+                                                             </div>
+                                                             <div class="form-group col-md-4 mb-0">
+                                                        <label>Date of Birth</label>
+                                                             </div>
+                                                             <div class="col-md-8 form-group">
+                                                                 <input type="text" id="id_date_of_birth" class="form-control" name="dateofbirth" placeholder="{{user.member.date_of_birth }}" disabled="">
+                                                             </div>
+                                                             <label>Age</label>
+                                                            </div>
+                                                            <div class="col-md-8 form-group">
+                                                                <input type="text" id="age" class="form-control" name="dateofbirth" placeholder="" disabled="">
+                                                            </div>
+                                                             <div class="form-group col-md-4 mb-0">
+                                                        <label>Place of Birth</label>
+                                                             </div>
+                                                             <div class="col-md-8 form-group">
+                                                                 <input type="text" id="place-of-birth" class="form-control" name="placeofbirth" placeholder="{{user.member.place_of_birth }}" disabled="">
+                                                             </div> 
+                                                             <div class="form-group col-md-4 mb-0">
+                                                        <label>Contact Number</label>
+                                                             </div>
+                                                             <div class="col-md-8 form-group">
+                                                                 <input type="text" id="contact-number" class="form-control" name="cnumber" placeholder="{{user.member.contact_number }}" disabled="">
+                                                             </div>
+                                                             <div class="form-group col-md-4 mb-0">
+                                                        <label>Sex</label>
+                                                             </div>
+                                                             <div class="col-md-8 form-group">
+                                                                 <input type="text" id="sex" class="form-control" name="sex" placeholder="{{user.member.sex }}" disabled="">
+                                                             </div>
+                                                             <div class="form-group col-md-4 mb-0">
+                                                        <label>Civil Status</label>
+                                                             </div>
+                                                             <div class="col-md-8 form-group">
+                                                                 <input type="text" id="civil-status" class="form-control" name="cstatus" placeholder="{{user.member.civil_status }}" disabled="">
+                                                             </div>
+                                                             <div class="form-group col-md-4 mb-0">
+                                                        <label>Occupation</label>
+                                                             </div>
+                                                             <div class="col-md-8 form-group">
+                                                                 <input type="text" id="occupation" class="form-control" name="occupation" placeholder="{{user.member.occupation }}" disabled="">
+                                                             </div>
+                                                             <div class="form-group col-md-4 mb-0">
+                                                        <label>Skills</label>
+                                                             </div>
+                                                             <div class="col-md-8 form-group">
+                                                                 <input type="text" id="skills" class="form-control" name="skills" placeholder="{{user.member.skills }}" disabled="">
+                                                             </div>
+                                                             <div class="form-group col-md-4 mb-0">
+                                                        <label>Annual Income</label>
+                                                             </div>
+                                                             <div class="col-md-8 form-group">
+                                                                 <input type="text" id="annual_income" class="form-control" name="aincome" placeholder="{{user.member.annual_income }}" disabled="">
+                                                             </div>
+                                                            </div>
+                            
+                            
+                            
+                            
+                                
+                            
+                            
+                            
+                                        
+                                    
+                                </div> 
+                                <center>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                        <button class="btn btn-primary btn-block shadow mt-3" type="submit">Save</button>
+                                        </div> 
+                                        <div class="col-md-6">
+                                            <a class="btn btn-danger btn-block shadow mt-3" href="{% url 'manage-members' %}">Cancel</a>
+                                            </div>         
+                                    </div>    
+                                </center>
+                                <br />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>-->
+
+
+
+        <section id="basic-horizontal-layouts">
+            <div class="row match-height">
+                <div class="col-md-8 col-12">
+                    <div class="card">
+                        <div class="card-header" ><b>Account Details</b></div>
+                        <style>
+                        .card {
+                            box-shadow: 0 0.15rem 1.75rem 0 rgb(33 40 50 / 15%);
+                        }
+                        .card .card-header {
+                            font-weight: 500;
+                        }
+                        .card-header:first-child {
+                            border-radius: 0.35rem 0.35rem 0 0;
+                        }
+                        .card-header {
+                            padding: 1rem 1.35rem;
+                            margin-bottom: 0;
+                            background-color: rgba(33, 40, 50, 0.03);
+                            border-bottom: 1px solid rgba(33, 40, 50, 0.125);
+                        }
+                        .form-control, .dataTable-input {
+                            display: block;
+                            width: 100%;
+                            padding: 0.875rem 1.125rem;
+                            font-size: 0.875rem;
+                            font-weight: 400;
+                            line-height: 1;
+                            color: #69707a;
+                            background-color: #fff;
+                            background-clip: padding-box;
+                            border: 1px solid #c5ccd6;
+                            -webkit-appearance: none;
+                            -moz-appearance: none;
+                            appearance: none;
+                            border-radius: 0.35rem;
+                            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+                        }
+                    </style>
+                        <div class="card-content">
+                            <div class="card-body">
+                                <form class="form form-horizontal">
+                                    <div class="form-body">
+                                        {% comment %} <div class="col-12 col-md-6 order-md-4 order-last"> {% endcomment %}
+                                            <div class="row">
+                                            <div class="form-group col-md-1 offset-md-1">
+                                                <label>Name</label>
+                                            </div>
+                                            <div class="col-md-7 form-group offset-md-1">
+                                                <input type="text" id="last-name" class="form-control" name="lname" placeholder="{{user.member.last_name|title }}, {{user.member.first_name|title }} {{user.member.middle_name|title}} {{user.member.name_ext|title }} " disabled="">
+                                            </div>
+                                        </div>
+                                                <div class="row">
+                                                     <div class="form-group col-md-1 offset-md-1">
+                                                        <label>Barangay</label>
+                                                     </div>
+                                                     <div class="col-md-7 form-group offset-md-1">
+                                                         <input type="text" id="barangay" class="form-control" name="barangay" placeholder="{{user.member.get_barangay_display }}" disabled="">
+                                                     </div>
+                                                </div>
+                                                <div class="row">
+                                                     <div class="form-group col-md-2 offset-md-1">
+                                                        <label>Date of Birth</label>
+                                                     </div>
+                                                     <div class="col-md-7 form-group">
+                                                         <input type="text" id="date-of-birth" class="form-control" name="dateofbirth" placeholder="{{user.member.date_of_birth }}" disabled="">
+                                                     </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="form-group col-md-2 offset-md-1">
+                                                       <label>Age</label>
+                                                    </div>
+                                                    <div class="col-md-7 form-group">
+                                                        <input type="text" id="date-of-birth" class="form-control" name="dateofbirth" placeholder="{{ age }}" disabled="">
+                                                    </div>
+                                               </div>
+                                                {% comment %} <div class="row">
+                                                    <div class="form-group col-md-2 offset-md-1">
+                                                       <label>Age</label>
+                                                    </div>
+                                                    <div class="col-md-7 form-group">
+                                                        <input type="text" id="date-of-birth" class="form-control" name="dateofbirth" placeholder="{{user.member.date_of_birth }}" disabled="">
+                                                    </div>
+                                               </div> {% endcomment %}
+                                                <div class="row">
+                                                    <div class="form-group col-md-2 offset-md-1">
+                                                <label>Place of Birth</label>
+                                                     </div>
+                                                     <div class="col-md-7 form-group">
+                                                         <input type="text" id="place-of-birth" class="form-control" name="placeofbirth" placeholder="{{user.member.place_of_birth| title }}" disabled="">
+                                                     </div> 
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="form-group col-md-2 offset-md-1">
+                                                <label>Contact Number</label>
+                                                     </div>
+                                                     <div class="col-md-7 form-group">
+                                                         <input type="text" id="contact-number" class="form-control" name="cnumber" placeholder="{{user.member.contact_number }}" disabled="">
+                                                     </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="form-group col-md-2 offset-md-1">
+                                                <label>Sex</label>
+                                                     </div>
+                                                     <div class="col-md-7 form-group">
+                                                         <input type="text" id="sex" class="form-control" name="sex" placeholder="{{user.member.get_sex_display}}" disabled="">
+                                                     </div>
+                                                    </div>
+                                                     <div class="row">
+                                                        <div class="form-group col-md-2 offset-md-1">
+                                                <label>Civil Status</label>
+                                                     </div>
+                                                     <div class="col-md-7 form-group">
+                                                         <input type="text" id="civil-status" class="form-control" name="cstatus" placeholder="{{user.member.get_civilstatus_display }}" disabled="">
+                                                     </div>
+                                                    </div>
+                                                     <div class="row">
+                                                        <div class="form-group col-md-2 offset-md-1">
+                                                <label>Occupation</label>
+                                                     </div>
+                                                     <div class="col-md-7 form-group">
+                                                         <input type="text" id="occupation" class="form-control" name="occupation" placeholder="{{user.member.occupation|title }}" disabled="">
+                                                     </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="form-group col-md-2 offset-md-1">
+                                                <label>Skills</label>
+                                                     </div>
+                                                     <div class="col-md-7 form-group">
+                                                         <input type="text" id="skills" class="form-control" name="skills" placeholder="{{user.member.skills|title }}" disabled="">
+                                                     </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="form-group col-md-2 offset-md-1">
+                                                <label>Annual Income</label>
+                                                     </div>
+                                                     <div class="col-md-7 form-group">
+                                                         <input type="text" id="annual_income" class="form-control" name="aincome" placeholder="{{user.member.annual_income }}" disabled="">
+                                                     </div>
+                                                    </div>
+                                                    </div>
+                                        </div>
+                                    </div> 
+                                </form>
+                              
+                    </div>
+                </div>
+                <div class="col-md-4 col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            Profile Picture
+                        </div>
+                        <div class="card-content">
+                            <div class="card-body">
+                                <form class="form form-horizontal">
+                                    <div class="form-body">
+                                        <div class="row">
+                                          <div class="text-center">
+                                            <img src="{{user.member.img.url }}" style="width:150px; height:150px; border-radius: 50%; border:4px solid #435EBE"alt="Logo">
+                                        </div>
+                                          </div>
+                                          <div class="mt-3 text-center">
+                                            <b><p style="font-size:16px;" class="mb-0">{{user.member.first_name}} {{user.member.middle_name}} {{user.member.last_name}}</p></b>
+                                            <p style="font-size:15px; font-weight: lighter;" class="mb-0">Senior Citizen</p>
+                                            <p style="font-size:13px; font-weight: lighter;" class="mb-0">FSCAP No. {{user.id}}</p>
+                                          </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+          </section>
+          <section id="basic-horizontal-layouts">
+            <div class="row match-height">
+                <div class="col-md-8 col-12">
+                    <div class="card">
+                        <div class="card-header" ><b>Uploaded documents</b></div>
+                        <style>
+                        .card {
+                            box-shadow: 0 0.15rem 1.75rem 0 rgb(33 40 50 / 15%);
+                        }
+                        .card .card-header {
+                            font-weight: 500;
+                        }
+                        .card-header:first-child {
+                            border-radius: 0.35rem 0.35rem 0 0;
+                        }
+                        .card-header {
+                            padding: 1rem 1.35rem;
+                            margin-bottom: 0;
+                            background-color: rgba(33, 40, 50, 0.03);
+                            border-bottom: 1px solid rgba(33, 40, 50, 0.125);
+                        }
+                        .form-control, .dataTable-input {
+                            display: block;
+                            width: 100%;
+                            padding: 0.875rem 1.125rem;
+                            font-size: 0.875rem;
+                            font-weight: 400;
+                            line-height: 1;
+                            color: #69707a;
+                            background-color: #fff;
+                            background-clip: padding-box;
+                            border: 1px solid #c5ccd6;
+                            -webkit-appearance: none;
+                            -moz-appearance: none;
+                            appearance: none;
+                            border-radius: 0.35rem;
+                            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+                        }
+                    </style>
+                        <div class="card-content">
+                            <div class="card-body">
+                                <a href="{{ user.member.documents.url }}" download> Download File</a>
+                                  
+                                        {% comment %} <div class="col-12 col-md-6 order-md-4 order-last"> {% endcomment %}
+ 
+                        </div>
+                    </div>
+            </div>
+          </section>
+{% endif %}
+{% endblock %}
+
+

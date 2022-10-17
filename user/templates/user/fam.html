@@ -1,0 +1,214 @@
+{% extends 'user/layouts/master.html' %}
+{% block content %}
+{% load static %}
+
+<div id="sidebar" class="active">
+    <div class="sidebar-wrapper active ps ps--active-y">
+        <div class="sidebar-header">
+            <div class="d-flex justify-content-between">
+                <div class="logo mb-3">
+                    <a href="index.html"><img src="{% static 'images/logo/logooo.png' %}"
+                            style="width:auto; height:200px" alt="Logo"></a>
+                </div>
+                <div class="toggler">
+                    <a href="#" class="sidebar-hide d-xl-none d-block"><i class="bi bi-x bi-middle"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="sidebar-menu">
+            <ul class="menu">
+                <li class="sidebar-title">Menu</li>
+
+                <li class="sidebar-item">
+                    <a href="index.html" class="sidebar-link">
+                        <i class="bi bi-grid-fill"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+
+                <li class="sidebar-item has-sub active">
+                    <a href="#" class="sidebar-link">
+                        <i class="bi bi-people-fill"></i>
+                        <span>Members</span>
+                    </a>
+                    <ul class="submenu" style="display: none;">
+                        <li class="submenu-item ">
+                            <a href="{% url 'add-member' %}">Add Member</a>
+                        </li>
+                        <li class="submenu-item ">
+                            <a href="{% url 'manage-members' %}">Manage Members</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link">
+                        <i class="bi bi-people-fill"></i>
+                        <span>Users</span>
+                    </a>
+                </li>
+
+                <li class="sidebar-item  has-sub">
+                    <a href="#" class="sidebar-link">
+                        <i class="bi bi-pie-chart-fill"></i>
+                        <span>Reports</span>
+                    </a>
+                    <ul class="submenu ">
+                        <li class="submenu-item ">
+                            <a href="extra-component-avatar.html">Age Reports</a>
+                        </li>
+                        <li class="submenu-item ">
+                            <a href="extra-component-avatar.html">Gender Reports</a>
+                        </li>
+                        <li class="submenu-item ">
+                            <a href="extra-component-avatar.html">Barangay Reports</a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="sidebar-item  has-sub">
+                    <a href="#" class="sidebar-link">
+                        <i class="bi bi-grid-1x2-fill"></i>
+                        <span>Layouts</span>
+                    </a>
+                    <ul class="submenu ">
+                        <li class="submenu-item ">
+                            <a href="layout-default.html">Default Layout</a>
+                        </li>
+                        <li class="submenu-item ">
+                            <a href="layout-vertical-1-column.html">1 Column</a>
+                        </li>
+                        <li class="submenu-item ">
+                            <a href="layout-vertical-navbar.html">Vertical with Navbar</a>
+                        </li>
+                        <li class="submenu-item ">
+                            <a href="layout-horizontal.html">Horizontal Menu</a>
+                        </li>
+                    </ul>
+                </li>
+
+
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- top nav -->
+<div class="page-heading">
+    <div class="page-title">
+        <div class="row">
+            <div class="col-12 col-md-6 order-md-1 order-last">
+                <h3>Add Member</h3>
+                <p class="text-subtitle text-muted">
+                    {% for member in members %}
+                    {{ member.id }}
+                    {% endfor %}
+                    </p>
+            </div>
+            <div class="col-12 col-md-6 order-md-2 order-first">
+                <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Add Member</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- Basic Horizontal form layout section start -->
+    <section id="basic-horizontal-layouts">
+        <div class="row match-height">
+            <div class="col-md-10 col-12">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-body">
+                            <div class="row">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th class="col-md-1"></th>
+                                            <th class="col-md-3">Name</th>
+                                            <th class="col-md-2">Relationship</th>
+                                            <th class="col-md-1">Age</th>
+                                            <th class="col-md-2">Civil Status</th>
+                                            <th class="col-md-3">Occupation</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for family in families %}
+                                        <tr>
+                                            <!--takes the ID of an existing book in the db-->
+                                            <td></td>
+                                            <td>{{ family.name }}</td>
+                                            <td>{{ family.relationship}}</td>
+                                            <td>{{ family.age }}</td>
+                                            <td>{{ family.civil_status }}</td>
+                                            <td>{{ family.occupation }}</td>
+                                            <!--takes the title of the book-->
+                                            {% comment %} <td><a href="/info-family/{{ family.id }}">View</a></td> {% endcomment %}
+                                            <!--leads to the book's info-->
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+
+                                </table>
+                            </div>
+
+                                <form action="/newfam/" method="POST" class="form-group">
+                                    {% csrf_token %}
+                                    <div class="row">
+                                        <div class="col-md-1">
+                                            <button class="btn btn-success" type="submit">Add</button>
+                                        </div>
+                                    <div class="col-md-3">
+                                        <input type="text" name="f_name" placeholder="Name" class="form-control" />
+                                    </div>
+                                    <div class="col-md-2">
+                                        <input type="text" name="f_relationship" placeholder="Relationship" class="form-control" />
+                                    </div>
+                                    <div class="col-md-1">
+                                        <input name="f_age" placeholder="Age" class="form-control"></input>
+                                    </div>
+                                    <div class="col-md-2 col-12">
+                                        <input type="text" placeholder="Civil Status" name="f_civilstatus" class="form-control" />
+                                    </div>
+                                    <div class="col-md-3 col-12">
+                                        <input type="text" placeholder="Occupation" name="f_occupation" class="form-control" />
+                                    </div>
+                                    <select name="cars" id="cars" form="carform">
+                                        <option value="f_fam_member"></option>
+                                      </select>
+                                    <div class="col-md-3 col-12">
+                                        <sel type="text" placeholder="Fam" name="f_fam_member" class="form-control" />
+                                    </div>
+                                </div>
+                                    {% for error in messages %}
+                                    <p id="error_msg">{{ error }}</p>
+                                    {% endfor %}
+
+                                    <!--have to connect this to the author form-->
+                                </form>
+                                {{ member.id }}
+                                <select name="family_id">
+                                    <!--menu to add author in the list of who wrote the book-->
+                                    {% for me in mem %}
+                                    <option value="{{ mem.id }}">{{ mem.name }}</option>
+                                    {% endfor %}
+                                  </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
+
+</section>
+<!-- // Basic Horizontal form layout section end -->
+<!-- add-member form -->
+
+
+</div>
+{% endblock %}

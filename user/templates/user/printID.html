@@ -1,0 +1,233 @@
+{% extends 'user/layouts/master.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+{% load static %}
+{% block page_title %} Dashboard {% endblock %}
+
+
+<head>
+    <title>
+        Dashboard
+    </title>
+    <link rel="shortcut icon" href="{% static 'images/icon/favicon.svg' %}" type="image/x-icon">
+</head>
+
+<style>
+    .help-block{
+        color: red;
+    }
+    .myimg{
+        width:200px;
+        height:200px;
+        border-radius:50%;
+</style>
+{%if user.is_authenticated %}
+
+
+<!-- side bar -->
+<div id="sidebar" class="active">
+    <div class="sidebar-wrapper active ps ps--active-y">
+        <div class="sidebar-header">
+            <div class="justify-content-between">
+                <div class="logo mb-3 text-center">
+                    {% comment %} <img src="{{user.member.img.url }}" class="myimg" /> {% endcomment %}
+                        <a href="index.html"><img src="{{user.member.img.url }}" style="width:150px; height:150px; border-radius: 50%; border: 2px solid #555;"alt="Logo"></a>
+                </div>
+                <div class="toggler">
+                    <a href="#" class="sidebar-hide d-xl-none d-block"><i class="bi bi-x bi-middle"></i></a>
+                </div>
+            </div>
+            <div class="text-center">
+                <p style="font-size:16px;" class="mb-0">{{user.member.first_name}} {{user.member.middle_name}} {{user.member.last_name}}</p>
+                <p style="font-size:16px; font-weight: lighter;" class="mb-0">Senior Citizen</p>
+                <p style="font-size:16px; font-weight: lighter;" class="mb-0">{{user.id}}</p>
+            </div>
+        </div>
+        <div class="sidebar-menu">
+            <ul class="menu">
+                <li class="sidebar-title">Menu</li>
+
+                <li class="sidebar-item active">
+                    <a href="{% url 'index' %}" class="sidebar-link">
+                        <i class="bi bi-egg-fill"></i>
+                        <span>Profile</span>
+                    </a>
+                </li>
+
+                <li class="sidebar-item has-sub">
+                    <a href="#" class="sidebar-link">
+                        <i class="bi bi-people-fill"></i>
+                        <span>Account</span>
+                    </a>
+                    <ul class="submenu" style="display: none;">
+                        <li class="submenu-item ">
+                            <a href="{% url 'add-user' %}">Print ID Profile</a>
+                        </li>
+                        <li class="submenu-item ">
+                            <a href="{% url 'add-user' %}">Contact Information</a>
+                        </li>
+                        <li class="submenu-item ">
+                            <a href="{% url 'manage-users' %}">Change Password</a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="sidebar-item  has-sub">
+                    <a href="#" class="sidebar-link">
+                        <i class="bi bi-pie-chart-fill"></i>
+                        <span>Reports</span>
+                    </a>
+                    <ul class="submenu ">
+                        <li class="submenu-item ">
+                            <a href="extra-component-avatar.html">Age Reports</a>
+                        </li>
+                        <li class="submenu-item ">
+                            <a href="extra-component-avatar.html">Gender Reports</a>
+                        </li>
+                        <li class="submenu-item ">
+                            <a href="extra-component-avatar.html">Barangay Reports</a>
+                        </li>
+                    </ul>
+                </li>
+
+                {% if user.is_authenticated %}
+                <li class="sidebar-item">
+                     <a href="{% url 'logout' %}" class="sidebar-link" onclick="return confirm('Logout?')">
+                        <i class="bi bi-window close-fill"></i>
+                        <span>Logout</span>
+                    </a>
+                </li>
+                {% endif %}
+
+                
+            </ul>
+        </div>
+</div>
+</div>
+
+<!-- top nav -->
+<div class="page-heading">
+    <div class="page-title">
+        <div class="row">
+                <div class="col-6 col-lg-3 col-md-6">
+                    <div class="card">
+                        <div class="card-body px-3 py-4-5">
+                            
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="stats-icon purple">
+                                        <i class="iconly-boldShow"></i>
+                                    </div>
+                                </div>
+                                {% for member in total_members %}
+                                {% comment %} <h6 class="font-extrabold mb-0">{{ member }}</h6> {% endcomment %}
+                                {% endfor %}
+                                <div class="col-md-8">
+                                    <h6 class="text-muted font-semibold">{{user.username}}{{cureent}}Profile Views</h6>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-6 order-md-2 order-first">
+                <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Add Member</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+
+    <!-- add-member form -->
+                    <div class="row">
+                        <div class="col-6 col-lg-3 col-md-6">
+                            <div class="card">
+                                <div class="card-body px-3 py-4-5">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="stats-icon purple">
+                                                <i class="iconly-boldShow"></i>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <h6 class="text-muted font-semibold">Profile Views</h6>
+                                            <h6 class="font-extrabold mb-0">112.000</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6 col-lg-3 col-md-6">
+                            <div class="card">
+                                <div class="card-body px-3 py-4-5">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="stats-icon blue">
+                                                <i class="iconly-boldProfile"></i>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <h6 class="text-muted font-semibold">Senior Citizens</h6>
+                                            <h6 class="font-extrabold mb-0">{{ total_members | length }}</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6 col-lg-3 col-md-6">
+                            <div class="card">
+                                <div class="card-body px-3 py-4-5">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="stats-icon green">
+                                                <i class="iconly-boldAdd-User"></i>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <h6 class="text-muted font-semibold">Following</h6>
+                                            <h6 class="font-extrabold mb-0">80.000</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6 col-lg-3 col-md-6">
+                            <div class="card">
+                                <div class="card-body px-3 py-4-5">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="stats-icon red">
+                                                <i class="iconly-boldBookmark"></i>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <h6 class="text-muted font-semibold">Saved Post</h6>
+                                            <h6 class="font-extrabold mb-0">112</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- add-member form -->
+
+    <!--2x2 picture upload -->
+</div>
+{% endif %}
+{% endblock %}
+
+

@@ -1,0 +1,81 @@
+<section>
+  <div class="row">
+    <div class="col-md-8">
+      <hr>
+      <div class="row" style="text-align: center;">
+        <p>Republic of the Philippines <br />
+          Province of Cagayan <br />
+          <b>OFFICE OF SENIOR CITIZENS AFFAIRS </b><br />
+          Gonzaga, Cagayan </p>
+      </div>
+
+      <hr>
+      <h2 align="center"> APPLICANT INFORMATION RECORD </h2>
+      <hr>
+      <h3>Name:</h3>
+      <table align="center">
+        <th>
+          <tr> Last Name </tr>
+          <tr> First Name </tr>
+          <tr> Middle Name </tr>
+          <tr> Name Extension </tr>
+        </th>
+      </table>
+
+        <div class="columna" style="font-size:11px">
+          Last Name
+        </div>
+        <div class="columna" style="font-size:11px">
+          First Name
+        </div>
+        <div class="columna" style="font-size:11px">
+          Middle Name
+        </div>
+        <div class="columna" style="font-size:11px">
+          Name Ext.
+        </div>
+      </div>
+
+      <h1> </h1>
+      <div class="columna">
+        <b>DATE OF BIRTH: </b> {{ member.date_of_birth }}
+      </div>
+      <div class="columna" align="center">
+        {% comment %} <b> AGE: </b> {{ member.age }} {% endcomment %}
+      </div>
+      <div class="columna" align="center">
+        <b> SEX: </b> {{ member.get_sex_display }}
+      </div>
+
+      <div class="column">
+        <b>PLACE OF BIRTH: </b> {{ member.place_of_birth|title }}
+      </div>
+      <div class="column" align="center">
+        <b> CONTACT NO.: </b> {{ member.contact_number|upper }}
+      </div>
+      <div class="column" align="left">
+        <b> CIVIL STATUS: </b> {{ member.get_civilstatus_display }}
+      </div>
+      <h1> </h1>
+      <div class="column">
+        <b>OCCUPATION:</b>{{ member.occupation}}
+      </div>
+      <div class="column" align="center">
+        <b>ANNUAL INCOME:</b> {{ member.annual_income }}
+      </div>
+
+      <div class="row" align="center">
+      </div>
+      <h1> </h1>
+      <div class="column">
+        <b>SKILLS:</b> {{ member.skills }}
+      </div>
+
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-4">
+    </div>
+  </div>
+</section>
+</div>

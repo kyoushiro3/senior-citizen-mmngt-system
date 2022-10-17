@@ -1,0 +1,28 @@
+<table border="1">
+    <thead>
+    <tr>
+        <th>#</th>
+        <th>id</th>
+                 <TH> Name </ TH>
+                 <TH> Book </ TH>
+    </tr>
+    </thead>
+    <tbody>
+        {% for family in family_list %}
+            <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ author.id }}</td>
+            <td>{{ author.name }}</td>
+            <td>
+                {% for member in family.member.all %}
+                    {% if forloop.last %}
+                        {{ member.title }}
+                    {% else %}
+                        {{ member.title }} |
+                    {% endif %}
+                {% endfor %}
+            </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

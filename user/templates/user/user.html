@@ -1,0 +1,255 @@
+{% extends 'user/layouts/master.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+{% load static %}
+
+<style>
+    .help-block{
+        color: red;
+    }
+</style>
+
+<!-- side bar -->
+<div id="sidebar" class="active">
+    <div class="sidebar-wrapper active ps ps--active-y">
+        <div class="sidebar-header">
+            <div class="d-flex justify-content-between">
+                <div class="logo mb-3">
+                        <a href="index.html"><img src="{% static 'images/logo/logooo.png' %}" style="width:auto; height:200px"alt="Logo"></a>
+                </div>
+                <div class="toggler">
+                    <a href="#" class="sidebar-hide d-xl-none d-block"><i class="bi bi-x bi-middle"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="sidebar-menu">
+            <ul class="menu">
+                <li class="sidebar-title">Menu</li>
+
+                <li class="sidebar-item">
+                    <a href="{% url 'index' %}" class="sidebar-link">
+                        <i class="bi bi-grid-fill"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+
+
+                <li class="sidebar-item has-sub active">
+                    <a href="#" class="sidebar-link">
+                        <i class="bi bi-people-fill"></i>
+                        <span>Members</span>
+                    </a>
+                    <ul class="submenu active" style="display: none;">
+                        <li class="submenu-item active">
+                            <a href="{% url 'add-member' %}">Add Member</a>
+                        </li>
+                        <li class="submenu-item ">
+                            <a href="{% url 'manage-members' %}">Manage Members</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="sidebar-item has-sub">
+                    <a href="#" class="sidebar-link">
+                        <i class="bi bi-people-fill"></i>
+                        <span>Users</span>
+                    </a>
+                    <ul class="submenu" style="display: none;">
+ 
+                        <li class="submenu-item ">
+                            <a href="{% url 'manage-users' %}">Manage Users</a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="sidebar-item  has-sub">
+                    <a href="#" class="sidebar-link">
+                        <i class="bi bi-pie-chart-fill"></i>
+                        <span>Reports</span>
+                    </a>
+                    <ul class="submenu ">
+                        <li class="submenu-item ">
+                            <a href="extra-component-avatar.html">Age Reports</a>
+                        </li>
+                        <li class="submenu-item ">
+                            <a href="extra-component-avatar.html">Gender Reports</a>
+                        </li>
+                        <li class="submenu-item ">
+                            <a href="extra-component-avatar.html">Barangay Reports</a>
+                        </li>
+                    </ul>
+                </li>
+                {% if user.is_authenticated %}
+                <li class="sidebar-item">
+                     <a href="{% url 'logout' %}" class="sidebar-link" onclick="return confirm('Logout?')">
+                        <i class="bi bi-window close-fill"></i>
+                        <span>Logout</span>
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+</div>
+</div>
+
+<!-- top nav -->
+<div class="page-heading">
+    <div class="page-title">
+        <div class="row">
+            <div class="col-12 col-md-6 order-md-1 order-last">
+                <h3>Add Member</h3>
+                <p class="text-subtitle text-muted">Multiple form layout you can use</p>
+            </div>
+            <div class="col-12 col-md-6 order-md-2 order-first">
+                <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Add Member</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- add-member form -->
+    <section id="multiple-column-form">
+        <div class="row match-height">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-body">
+                            <div class="col-md-12 mb-2">
+                                <form method="post" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    {{ user_form.as_p }}
+                                    {{ profile_form.as_p}}
+                                    <button tupe="submit"> Save </button>
+                                </form>
+
+
+
+
+                            
+                            <!-- <form action="{% url 'add-member' %}" method="post" class="form" id="register-form">
+                                    {% csrf_token %}
+                                <div class="row">
+                                    <div class="col-md-4 mb-2">
+                                        <div class="form-group">
+                                            <label for="id_last_name">Last Name</label>
+                                            <input type="text" id="last-name-column" class="form-control"
+                                                placeholder="Last Name" name="lname-column">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 mb-2">
+                                        <div class="form-group">
+                                            <label for="id_first_name">First Name</label>
+                                            <input type="text" id="first-name-column" class="form-control"
+                                                placeholder="First Name" name="fname-column">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 mb-2">
+                                        <div class="form-group">
+                                            <label for="middle-name-column">Middle Name</label>
+                                            <input type="text" id="id_middle_name" class="form-control"
+                                                placeholder="Middle Name" name="mname-column">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3 mb-2">
+                                        <div class="form-group">
+                                            <label for="middle-name-column">Date of Birth</label>
+                                            <input type="text" id="id_middle_name" class="form-control"
+                                                placeholder="Middle Name" name="mname-column">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-1 mb-2 ">
+                                        <div class="form-group">
+                                            <label for="middle-name-column">Age</label>
+                                            <input type="text" id="id_middle_name" class="form-control"
+                                                placeholder="Middle Name" name="mname-column">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-2 mb-2 offset-md-1">
+                                        
+                                        <div class="form-group">
+                                            
+                                            <label for="middle-name-column">Sex</label>
+                                            <select name="sex" required="" id="id_sex"  class="form-control">
+                                                <option value="">---------</option>
+              
+                                                <option value="M">Male</option>
+                                              <option value="M">Female</option>
+              
+                                                <option placeholder="Sex" selected="">-------</option>
+                                            </select>    
+                                            
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3 mb-2">
+                                        <div class="form-group">
+                                            <label for="barangay-name-column">Civil Status</label>
+                                            <input type="text" id="id_barangay" class="form-control"
+                                                placeholder="Barangay" name="barangay-column">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-8 mb-2">
+                                        <div class="form-group">
+                                            <label for="barangay-name-column">Place of Birth</label>
+                                            <input type="text" id="id_barangay" class="form-control"
+                                                placeholder="Barangay" name="barangay-column">
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-md-6 mb-2">
+                                        <div class="form-group">
+                                            <label for="barangay-name-column">Barangay</label>
+                                            <input type="text" id="id_barangay" class="form-control"
+                                                placeholder="Barangay" name="barangay-column">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 mb-2">
+                                        <div class="form-group">
+                                            <label for="barangay-name-column">Contact No.</label>
+                                            <input type="text" id="id_barangay" class="form-control"
+                                                placeholder="Barangay" name="barangay-column">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4 mb-2">
+                                        <div class="form-group">
+                                            <label for="id_last_name">Occupation</label>
+                                            <input type="text" id="last-name-column" class="form-control"
+                                                placeholder="Last Name" name="lname-column">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4 mb-2">
+                                        <div class="form-group">
+                                            <label for="id_last_name">Annual Income</label>
+                                            <input type="text" id="last-name-column" class="form-control"
+                                                placeholder="Last Name" name="lname-column">
+                                        </div>
+                                    </div>         
+                                </div>
+                                <div class="col-8">
+                                    <button type="submit" class="btn btn-primary me-1 mb-1">Submit</button>
+                                    <button type="reset" class="btn btn-light-secondary me-1 mb-1">Reset</button>
+                                </div>
+                            </form> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- add-member form -->
+
+    <!--2x2 picture upload -->
+
+{% endblock %}

@@ -1,0 +1,144 @@
+{% extends 'user/layouts/master.html' %}
+{% block content %}
+{% load static %}
+
+<!-- side bar -->
+<div id="sidebar" class="active">
+    <div class="sidebar-wrapper active ps ps--active-y">
+        <div class="sidebar-header">
+            <div class="d-flex justify-content-between">
+                <div class="logo mb-3">
+                        <a href="#"><img src="{% static 'images/logo/logooo.png' %}" style="width:auto; height:200px"alt="Logo"></a>
+                </div>
+                <div class="toggler">
+                    <a href="#" class="sidebar-hide d-xl-none d-block"><i class="bi bi-x bi-middle"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="sidebar-menu">
+            <ul class="menu">
+                <li class="sidebar-title">Menu</li>
+
+                <li class="sidebar-item">
+                    <a href="{% url 'index' %}" class="sidebar-link">
+                        <i class="bi bi-grid-fill"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+
+                <li class="sidebar-item has-sub active">
+                    <a href="#" class="sidebar-link">
+                        <i class="bi bi-people-fill"></i>
+                        <span>Users</span>
+                    </a>
+                    <ul class="submenu" style="display: none;">
+                        <li class="submenu-item">
+                            <a href="{% url 'active-users' %}">Active Users</a>
+                        </li>
+                        <li class="submenu-item active">
+                            <a href="{% url 'blocked-users' %}">Blocked Users</a>
+                        </li>
+                        <li class="submenu-item ">
+                            <a href="{% url 'manage-users' %}">Manage Users</a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="sidebar-item  has-sub">
+                    <a href="#" class="sidebar-link">
+                        <i class="bi bi-pie-chart-fill"></i>
+                        <span>Reports</span>
+                    </a>
+                    <ul class="submenu ">
+                        <li class="submenu-item ">
+                            <a href="{% url 'sex-report' %}">Gender Report</a>
+                        </li>
+                        <li class="submenu-item ">
+                            <a href="{% url 'brgy-report' %}">Barangay Report</a>
+                        </li>
+                        <li class="submenu-item">
+                            <a href="{% url 'status-report' %}">Status Report</a>
+                        </li>
+                    </ul>
+                </li>
+
+            
+                <hr>
+                <li class="sidebar-item">
+                     <a href="{% url 'logout' %}" class="sidebar-link" onclick="return confirm('Logout?')">
+                        <i class="bi bi-window close-fill"></i>
+                        <span class="text-danger">Logout</span>
+                    </a>
+                </li>
+
+                
+            </ul>
+        </div>
+</div>
+
+
+<div class="page-heading">
+    <div class="page-title">
+        <div class="row">
+            <div class="col-12 col-md-6 order-md-1 order-last">
+                <h4>List of Blocked Users</h4>
+            </div>
+            <div class="col-12 col-md-6 order-md-2 order-first">
+                <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Blocked Users</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <section class="section">
+        <div class="card">
+            <div class="card-body">
+                <table class="table table-striped" id="table1">
+                    <thead>
+                        <tr>
+                            <th class="col-1.5">FSCAP No</th>
+                            <th class="col-2">Username</th>
+                            <th class="col-2">Email</th>
+                            <th class="col-2">Password</th>
+                            <th class="col-2"> Priviledge </th>
+                            <th class="col-3.5">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in users %}
+                        <tr>
+                            <td>118-{{ user.id }}</td>
+                            <td>{{ user.username }}</td>
+                            <td>{{ user.email }} </td>
+                            <td>************ </td>
+                            <td>{% if user.is_staff == 0 %} User{% endif %}{% if user.is_staff == 1%}Staff {% endif %} </td>
+                            <td>
+                                <a class="btn btn-success" onclick="return confirm('Are you sure you want to activate {{user.username}}?')" href="{% url 'activateaccount' user.pk %}" data-toggle="tooltip"
+                                    data-original-title="Edit user">Activate</a>
+                            </td>
+
+                        {% endfor %}
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+</div>
+</section>
+</div>
+
+{% endblock %}
+{% block styles %}
+<link rel="stylesheet" href="{% static 'vendors/simple-datatables/style.css' %}">
+{% endblock %}
+{% block js %}
+<script src="{% static 'vendors/simple-datatables/simple-datatables.js' %}"></script>
+<script>
+    // Simple Datatable
+    let table1 = document.querySelector('#table1');
+    let dataTable = new simpleDatatables.DataTable(table1);
+</script>
+{% endblock %}

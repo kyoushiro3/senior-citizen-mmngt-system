@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Books & Authors</title>
+    {% load static %}
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+  </head>
+  <body style="background-image: url({% static 'img/author-bg2.jpg' %}">
+    <div>
+      <div>
+        <h1>{{ member.first_name }} {{ member.last_name }}</h1>
+        <!--author's info-->
+        <p>ID: {{ member.id }}</p>
+        <label for="">Notes:</label>
+      </div>
+      <div>
+        <label for="">Books:</label>
+        <!--list of "books" by author-->
+        <ul>
+          {% for fam in Family.member.all %}
+          <li>{{ fam.name }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+      <div>
+        <!--menu to add books in the author's list of books written-->
+        <form action="/addfamtomember/{{ member.id }}" method="POST">
+          {% csrf_token %}
+          <select name="family_id">
+            <!--menu to add author in the list of who wrote the book-->
+            {% for mems in fam %}
+            <option value="{{ member.id }}">{{ member.name }}</option>
+            {% endfor %}
+          </select>
+          <button type="submit" class="btn btn-success">Add</button>
+        </form>
+      </div>
+      <div id="homebtn">
+        <button class="btn btn-outline-info" id="backbookbtn">
+          <a href="/">Back to Books</a>
+        </button>
+        <button class="btn btn-outline-info" id="backauthbtn">
+          <a href="/authors">Back to Authors</a>
+        </button>
+      </div>
+    </div>
+  </body>
+</html>
