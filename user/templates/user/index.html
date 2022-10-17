@@ -1,98 +1,208 @@
-{% load static %}
+{% extends 'user/layouts/master.html' %}
 {% load crispy_forms_tags %}
-<!DOCTYPE html>
-<html lang="en">
+{% block content %}
+{% load static %}
+
+{%if user.is_authenticated %}
+{% comment %} {% block page_title %} Dashboard {% endblock %} {% endcomment %}
+
 
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="title" content="project">
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta name="language" content="English">
-  <meta name="author" content="vinayak sharma">
-
-  <title>{{title}}</title>
-
-
-  <!-- bootstrap file -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  <!-- bootstrap file-->
-
-  <!-- jQuery -->
-  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
-
-  <!-- main css -->
-  <link rel="stylesheet" type="text/css" href="{% static "index.css" %}" />
-
-
-  <!-- message here -->
-
-  {% if messages %}
-  {% for message in messages %}
-
-  <script>
-    alert("{{ message }}");
-  </script>
-
-  {% endfor %}
-  {% endif %}
-
-  <!--_______________________________________________-->
-
-
-
+    <title>
+        Dashboard
+    </title>
+    <link rel="shortcut icon" href="{% static 'images/icon/favicon.svg' %}" type="image/x-icon">
 </head>
+<style>
+    .help-block{
+        color: red;
+    }
+    .myimg{
+        width:200px;
+        height:200px;
+        border-radius:50%;
+    .roundedImage {
+        overflow:hidden;
+        border-radius:50%;
+        width:200px;
+        height:200px;
+</style>
 
-<body class="container-fluid">
-
-
-  <header class="row">
-
-    <!-- navbar-->
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <button class="navbar-toggle" data-toggle="collapse" data-target="#mainNavBar">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" class="styleheader" href="{% url "index" %}">project</a>
+  
+<!-- side bar -->
+<div id="sidebar" class="active">
+    <div class="sidebar-wrapper active ps ps--active-y">
+        <div class="sidebar-header">
+            <div class="justify-content-between">
+                <div class="logo mb-3 text-center">
+                    {% comment %} <img src="{{user.member.img.url }}" class="myimg" /> {% endcomment %}
+                    <img src="{% static 'images/logo/logooo.png' %}" style="width:auto; height:200px"alt="Logo">
+                </div>
+                <div class="toggler">
+                    <a href="#" class="sidebar-hide d-xl-none d-block"><i class="bi bi-x bi-middle"></i></a>
+                </div>
+            </div>
         </div>
-        <div class="collapse navbar-collapse" id="mainNavBar">
-          <ul class="nav navbar-nav navbar-right">
-            <li><a href="{% url "index" %}">Home</a></li>
+        <div class="sidebar-menu">
+            <ul class="menu">
+                <li class="sidebar-title">Menu</li>
 
-            {% if user.is_authenticated %}
-            <li><a href="{% url "logout" %}"><span class="glyphicon glyphicon-log-out"></span> &nbsp; Logout</a></li>
-            {% else %}
-            <li><a href="{% url "register" %}"><span class="glyphicon glyphicon-user"></span> &nbsp; Sign up</a></li>
-            <li><a href="{% url "login" %}"><span class="glyphicon glyphicon-log-in"></span> &nbsp; Log in</a></li>
-            {% endif %}
+                <li class="sidebar-item active">
+                    <a href="{% url 'index' %}" class="sidebar-link">
+                        <i class="bi bi-grid-fill"></i>
+                        <span>Home</span>
+                    </a>
+                </li>
 
-          </ul>
+                <li class="sidebar-item">
+                    <a href="{% url 'member-profile' %}" class="sidebar-link">
+                        <i class="bi bi-egg-fill"></i>
+                        <span>Profile</span>
+                    </a>
+                </li>
+
+                <li class="sidebar-item has-sub">
+                    <a href="#" class="sidebar-link">
+                        <i class="bi bi-people-fill"></i>
+                        <span>Account</span>
+                    </a>
+                    <ul class="submenu" style="display: none;">
+                        <li class="submenu-item ">
+                            <a href="#">Change Password</a>
+                        </li>
+                    </ul>
+                </li>
+
+            
+                <hr>
+                {% if user.is_authenticated %}
+                <li class="sidebar-item">
+                    <a href="{% url 'logout' %}" class="sidebar-link" onclick="return confirm('Logout?')">
+                        <i class="bi bi-window close-fill"></i>
+                        <span class="text-danger">Logout</span>
+                    </a>
+                </li>
+                {% endif %}
+
+                
+            </ul>
         </div>
-      </div>
-    </nav>
-  </header>
-  <br/>
-  <br>
-  <br>
-  <div class="row">
-    {% block start %}
-    {% if user.is_authenticated %}
-    <center><h1>welcome back {{user.username}}!</h1></center>
-    {% else %}
-    <center><h1>log in, plz . . .</h1></center>
-    {% endif %}
-    {% endblock %}
-  </div>
-</body>
+</div>
+</div>
+<!-- top nav -->
+<div class="page-heading">
+    <div class="page-title">
+        <div class="row">
+            <div class="col-12 col-md-6 order-md-1 order-last">
+                <h3>Home</h3>
+            </div>
+            <div class="col-12 col-md-6 order-md-2 order-first">
+                <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href={% url 'index' %}>Home</a></li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
 
-</html>
+    <span id="datetime" class="col-md-12 mb-2"></span>
+
+    <script>
+    var dt = new Date();
+    document.getElementById("datetime").innerHTML = dt;
+    </script>
+    <br>
+    <br>
+    <!-- add-member form -->
+    <h4>Announcements</h4>
+
+    <section id="basic-horizontal-layouts">
+        <div class="row match-height">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <section>
+                                        <style>
+                                            <div class="row">
+                                                * {
+                                                    box-sizing: border-box;
+                                                  }
+                                                  
+                                                  
+                                                  /* Float four columns side by side */
+                                                  .column1 {
+                                                    float: left;
+                                                    width: 100%;
+                                                    padding: 0 10px;
+                                                  }
+                                                  
+                                                  /* Remove extra left and right margins, due to padding */
+                                                  .row1 {margin: 0 -5px; padding: 10px 10px;}
+                                                  
+                                                  /* Clear floats after the columns */
+                                                  .row1:after {
+                                                    content: "";
+                                                    display: table;
+                                                    clear: both;
+                                                  }
+                                                  
+                                                  /* Responsive columns */
+                                                  @media screen and (max-width: 600px) {
+                                                    .column1 {
+                                                      width: 100%;
+                                                      display: block;
+                                                      margin-bottom: 20px;
+                                                    }
+                                                  }
+                                                  
+                                                  /* Style the counter cards */
+                                                  .card1 {
+                                                    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+                                                    padding: 16px;
+                                                    text-align: center;
+                                                    background-color: white;
+                                                  }
+                                                  b{
+                                                      font-size: 20px;
+                                                      color: #25396F;
+                                                  }
+                                                  </style>
+                                                  </head>
+                                                  <body>
+                                            
+                                                  {% for announcement in announcements %}
+                                    
+                                                  <div class="row1">
+                                                    <div class="column1">
+                                                      <div class="card">
+                                                        <b>{{ announcement.title }}</b>
+                                                        <p>{{ announcement.created_at }}</p>
+                                                        <p>{{ announcement.desc }}</p>
+                                                      
+                                                        <hr>
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                  {% endfor %}
+                                                </tr>
+                                                <tbody>
+                                            </table>
+                                    </section>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</div>
+{% endif %}
+{% endblock %}
+
+

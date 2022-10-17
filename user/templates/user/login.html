@@ -1,20 +1,56 @@
-{% extends "user/index.html" %}
+{% load static %}
 {% load crispy_forms_tags %}
-{% block start %}
+<head>
 
- <div class="content-section col-md-8 col-md-offset-2">
-  <center>
-  <form method="POST" style="border: 1px solid black; margin: 4%; padding:10%; border-radius:1%;">
-    {% csrf_token %}
-    <fieldset class="form-group">
-      {{ form|crispy}}
-    </fieldset>
-   <center>
-    <button style="background: black; font-size: 2rem; padding:1%;" class="btn btn-outline-info" type="submit"><span class="glyphicon glyphicon-log-in"></span> &nbsp; login</button>
-  </center>
-  <br/>
-  <sub style="text-align: left;"><a href="{% url 'register' %}" style="text-decoration: none; color: blue; padding:2%; cursor:pointer; margin-right:2%;">don't have account,sign up</a></sub>
-  </form>
-</center>
- </div>
-{% endblock start %}
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SCMS</title>
+
+<link rel="shortcut icon" href="{% static 'images/icons/icon.ico' %}" />
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+<link rel="stylesheet" href="{% static 'vendors/bootstrap-icons/bootstrap-icons.css' %}">
+<link rel="stylesheet" href="{% static 'css/app.css' %}">
+<link rel="stylesheet" href="{% static 'css/pages/auth.css' %}">
+</head>
+
+<style>
+    .invalid{
+        color: red;
+    }
+</style>
+
+<div class="row mt-5">
+    <div class="row d-flex justify-content-center text-center">
+        <div class="row d-flex justify-content-center text-center">
+            <a href="{% url 'welcome' %}"><img src="{% static 'images/logo/logooo.png' %}" style="max-width: 25%;" alt="Logo"></a>
+        </div>
+        <div class="col-3 mt-3">
+            <form method="POST">
+                {% csrf_token %}
+                <fieldset class="form-group">
+                    {% comment %} {{ form|crispy }} {% endcomment %}
+                    
+                    <div class="form-group">
+                    <input type="text" name="username" id="username" class="form-control" placeholder="Username" required="">
+                </div>
+                <div class="form-group">
+                    <input type="password" name="password" id="password" class="form-control" placeholder="Password" required="">
+                </div>
+                {% if messages %}
+                    {% for message in messages %}
+                            <p class="invalid"> {{ message }} </p>
+                    {% endfor %}
+                {% endif %}
+                <button class="btn btn-primary btn-block shadow mb-3" type="submit">Log in</button> 
+            </form>
+            <p class="text-gray-600">Don't have an account? <a href="{% url 'signup' %}" class="font-bold">Sign
+                    up</a>.</p>
+            {% comment %} <p><a class="font-bold" href="auth-forgot-password.html">Forgot password?</a>.</p> {% endcomment %}
+
+        </div>
+    </div>
+</div>
+
+
+
